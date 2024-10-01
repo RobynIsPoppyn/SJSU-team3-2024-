@@ -6,6 +6,7 @@ public class Gun : MonoBehaviour
 {
     public MovementAndAiming maa; 
     public Battery bat;
+    public GameObject mouseTracker; 
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +25,14 @@ public class Gun : MonoBehaviour
     Transform[] Fire(){ //returns the gameObjects that were hit 
 
         bat.incrementCharge(-1); //Drain battery
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
-        RaycastHit[] hits = Physics.RaycastAll(ray, maa.maxDistance, 3); //everything hit in the path
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
+        Debug.DrawRay(transform.position, mouseTracker.transform.position - transform.position, Color.red, 20f);
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, 
+            mouseTracker.transform.position - transform.position, 
+            maa.maxDistance, ~(1 << 3)); //everything hit in the path
         List<Transform> EnemiesHit = new List<Transform>(); //List of specifically enemies hit, will be coverted to an array
 
+        System.Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
         bool hitWall = false;
         foreach (RaycastHit hit in hits) { //look at every hit
             print(hit.transform.name);

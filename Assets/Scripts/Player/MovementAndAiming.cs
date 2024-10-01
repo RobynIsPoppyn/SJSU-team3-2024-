@@ -105,7 +105,7 @@ public class MovementAndAiming : MonoBehaviour
 
         RaycastHit hitInfo;
         LayerMask mask = LayerMask.GetMask("Player");
-        if (Physics.Raycast(ray, out hitInfo, maxDistance, 3 << 6)){
+        if (Physics.Raycast(ray, out hitInfo, maxDistance, ~(1 << 3))){
             mouseTracker.transform.position = hitInfo.point;
         }
 
