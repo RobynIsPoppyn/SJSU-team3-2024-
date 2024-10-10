@@ -26,6 +26,8 @@ public class Gun : MonoBehaviour
 
         bat.incrementCharge(-1); //Drain battery
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
+
+        //Drawing the ray in the editor (doesnt show up in game)
         Debug.DrawRay(transform.position, mouseTracker.transform.position - transform.position, Color.red, 20f);
         RaycastHit[] hits = Physics.RaycastAll(transform.position, 
             mouseTracker.transform.position - transform.position, 
