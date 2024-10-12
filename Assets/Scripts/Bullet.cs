@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     }
     public void CloneBullet(){
         clone = true;
+        transform.GetChild(0).GetComponent<Animator>().Play("ProjectileForward");
     }
 
     public IEnumerator end(){
