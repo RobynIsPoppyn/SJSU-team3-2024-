@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     public Transform target;
     NavMeshAgent agent;
 
-    int movePoints = 100; //track the avaialble points an enemy has to use a move, which drains depending on the move
+    //int movePoints = 100; //track the avaialble points an enemy has to use a move, which drains depending on the move
     //refills continously (update??)
     
     List<EnemyMove> MoveList = new List<EnemyMove>();

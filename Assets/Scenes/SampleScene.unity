@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 487446946}
   - component: {fileID: 487446952}
   - component: {fileID: 487446953}
+  - component: {fileID: 487446954}
   m_Layer: 7
   m_Name: EnemyDummy (1)
   m_TagString: Untagged
@@ -220,7 +221,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &487446950
 BoxCollider:
@@ -289,6 +290,21 @@ MonoBehaviour:
   cooldownAccessor: 8
   CloseLength: 2
   timeForClosing: 3
+--- !u!114 &487446954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487446945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fb5e9cc8b0c5f4a8f37a8f48eda273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownAccessor: 2.8
+  Distance: 10
+  Force: 1000
 --- !u!1 &704490693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1396,7 @@ GameObject:
   - component: {fileID: 1988408069}
   - component: {fileID: 1988408068}
   - component: {fileID: 1988408067}
+  - component: {fileID: 1988408071}
   m_Layer: 7
   m_Name: Graphics
   m_TagString: Untagged
@@ -1473,6 +1490,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 487446951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1988408071
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988408064}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9290cb85ef2d25448a7a6f5a3221b522, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2934543666809181530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1484,6 +1522,14 @@ PrefabInstance:
     - target: {fileID: 3167185343729380407, guid: 15f71e2efa926c041b6f9b20b6cd6b5f, type: 3}
       propertyPath: m_Name
       value: BulletObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167185343729380407, guid: 15f71e2efa926c041b6f9b20b6cd6b5f, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4618623458396245662, guid: 15f71e2efa926c041b6f9b20b6cd6b5f, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4770131967256696473, guid: 15f71e2efa926c041b6f9b20b6cd6b5f, type: 3}
       propertyPath: m_LocalPosition.x
