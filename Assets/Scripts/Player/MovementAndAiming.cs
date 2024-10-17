@@ -15,6 +15,7 @@ public class MovementAndAiming : MonoBehaviour
 
     private Vector3 playerVelocity;
     public GameObject mouseTracker;
+        public LineRenderer lineRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,43 +78,28 @@ public class MovementAndAiming : MonoBehaviour
 
 
 
-        Vector3 temp = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        temp.z = 10; 
+        Vector3 temp = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0); //current position of the mouse
+        temp.z = 10; //fix depth issues
         mousePos = Camera.main.ScreenToWorldPoint(temp);
-        //Mouse following attempt 1 
-        /*Vector3 lookDir = new Vector3(mousePos.x, 0, -1 * mousePos.y) - rb.position;
-        print(mousePos.x + " " + mousePos.y);
-        //print("lookDir: " + lookDir);
-        float angle = Mathf.Atan2(lookDir.z, lookDir.x) * Mathf.Rad2Deg - 90f;
 
-        print("angle:" + angle);
-        Quaternion target = Quaternion.Euler(transform.rotation.x, angle, transform.rotation.z);
-        rb.rotation = target; */ 
-
-        //Mouse following attempt 2
-        /*
-        float angle = Mathf.Atan2(Input.mousePosition.y, -1 * Input.mousePosition.x) * Mathf.Rad2Deg - 90f;
-
-        Quaternion target = Quaternion.Euler(transform.rotation.x, angle, transform.rotation.z);
-        rb.rotation = target;*/
-
-
-        
-        //Mouse followng attempt 3
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
 
         RaycastHit hitInfo;
+
+        
+
         LayerMask mask = LayerMask.GetMask("Player");
         if (Physics.Raycast(ray, out hitInfo, maxDistance, ~(1 << 3))){
             mouseTracker.transform.position = hitInfo.point;
         }
+        if (Input.GetKey(KeyCode.Mouse1)){
+            lineRenderer.enabled = true;
+            Vector3[] lineEnds = new Vector3[2]{mouseTracker.transform.position, transform.position}; //For drawing the laser 
+            lineRenderer.SetPositions(lineEnds); //Set laser positions
+        }
+        else {lineRenderer.enabled = false;}
 
         
-        //mouseTracker.transform.position = mousePos;
-       /* mouseTracker.transform.position = new Vector3(
-            mouseTracker.transform.position.x, 0, mouseTracker.transposition.z
-        ); */
         transform.LookAt(mouseTracker.transform, Vector3.up);
 
 

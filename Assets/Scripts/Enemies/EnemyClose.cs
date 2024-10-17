@@ -40,7 +40,6 @@ public class EnemyClose : MonoBehaviour, EnemyMove
         Closing = true;
         yield return new WaitForSeconds(timeForClosing);
         Closing = false;
-        Debug.Log("Done");
         navMesh.stoppingDistance = distance;
 
     }

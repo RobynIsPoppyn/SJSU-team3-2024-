@@ -17,7 +17,7 @@ public class EnemyAttack : MonoBehaviour, EnemyMove
 
     public void Start(){
         Cooldown = cooldownAccessor;
-        Debug.Log(Cooldown);
+    
     }
     public bool Act(){
         Debug.Log("Shooting");
