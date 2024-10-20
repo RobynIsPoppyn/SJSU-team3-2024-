@@ -12,12 +12,15 @@ public class Gun : MonoBehaviour
 
     public float BulletSpeed = 0.5f;
 
-    
+    // healthsystem variable
+    public healthSystem hs;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        hs = FindObjectOfType<healthSystem>();
     }
 
     // Update is called once per frame
@@ -26,6 +29,9 @@ public class Gun : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0)){
             print("Fired");
             Fire();
+
+            //health system check
+            hs.takeDamage(1);
         }
     }
 
