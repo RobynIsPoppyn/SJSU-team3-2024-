@@ -6,14 +6,17 @@ public class Battery : MonoBehaviour
 {
     private int Charge;
     public int maxCharge;
+    Parry parry;
     // Start is called before the first frame update
     void Start()
     {
         Charge = maxCharge;
+        parry = transform.GetComponent<Parry>();
     }
 
     public void setCharge(int input){
-        Charge = input;
+        if (!parry.Spinning)
+            Charge = input;
     }
 
     public int getCharge() {
@@ -22,6 +25,7 @@ public class Battery : MonoBehaviour
     
 
     public void incrementCharge(int input){
-        Charge += input; 
+        if (!parry.Spinning)
+            Charge += input; 
     }
 }

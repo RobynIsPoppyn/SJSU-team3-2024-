@@ -25,7 +25,7 @@ public class EnemyClose : MonoBehaviour, EnemyMove
     public bool Act(){
         if (navMesh.enabled == true){
             Transform target = transform.GetComponent<EnemyAI>().target;
-            Debug.Log("Closing in");
+           //Debug.Log("Closing in");
             float distance = Vector3.Distance(target.position, transform.position);
             float temp = navMesh.stoppingDistance - CloseLength;
             float oldDistance = navMesh.stoppingDistance; 

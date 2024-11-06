@@ -20,7 +20,7 @@ public class EnemyAttack : MonoBehaviour, EnemyMove
     
     }
     public bool Act(){
-        Debug.Log("Shooting");
+        //Debug.Log("Shooting");
         GameObject cloned = Instantiate(bulletPrefab, transform.position, 
             transform.rotation, null);
         cloned.GetComponent<Bullet>().CloneBullet();

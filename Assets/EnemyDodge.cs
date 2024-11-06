@@ -18,7 +18,7 @@ public class EnemyDodge : MonoBehaviour, EnemyMove
 
 
     public bool Act(){
-        Debug.Log("Dodging");
+      //  Debug.Log("Dodging");
         int DodgeDirection = 0; //1 for left, -1 for right, 0 for none (could be enum maybe)
         float temp = 0; 
         temp = Random.Range(-1f, 1f);
@@ -27,7 +27,8 @@ public class EnemyDodge : MonoBehaviour, EnemyMove
         }
         else DodgeDirection = -1;
 
-        Debug.Log(DodgeDirection);
+        
+        
         if (enemyClose != null && !enemyClose.GetClosing() && DodgeDirection != 0){
             
             bool cast = Physics.Raycast(transform.position, transform.right * DodgeDirection, Distance, ~(1 << 7 | 1 << 2));

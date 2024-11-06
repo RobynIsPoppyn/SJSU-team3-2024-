@@ -12,10 +12,13 @@ public class MovementAndAiming : MonoBehaviour
     
     public float gravityValue = 0.05f;
      
-
+    
     private Vector3 playerVelocity;
     public GameObject mouseTracker;
         public LineRenderer lineRenderer;
+
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +35,7 @@ public class MovementAndAiming : MonoBehaviour
     [Header("Mouse tracking")]
     public float maxDistance = 50f;
 
-
+    public Transform child; 
     //Draw the grounded sphere
     void OnDrawGizmosSelected(){
         Gizmos.color = Color.yellow;
@@ -72,8 +75,10 @@ public class MovementAndAiming : MonoBehaviour
 
         //movement
         Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(direction * PlayerSpeed);
-        controller.Move(playerVelocity); //move down
+        if (controller.enabled){
+            controller.Move(direction * PlayerSpeed);
+            controller.Move(playerVelocity); //move down
+        }
 
 
 
@@ -91,16 +96,16 @@ public class MovementAndAiming : MonoBehaviour
         LayerMask mask = LayerMask.GetMask("Player");
         if (Physics.Raycast(ray, out hitInfo, maxDistance, ~(1 << 3))){
             mouseTracker.transform.position = hitInfo.point;
-        }
+        }/*
         if (Input.GetKey(KeyCode.Mouse1)){
             lineRenderer.enabled = true;
-            Vector3[] lineEnds = new Vector3[2]{mouseTracker.transform.position, transform.position}; //For drawing the laser 
+            Vector3[] lineEnds = new Vector3[2]{mouseTracker.transform.position, child.transform.position}; //For drawing the laser 
             lineRenderer.SetPositions(lineEnds); //Set laser positions
         }
-        else {lineRenderer.enabled = false;}
+        else {lineRenderer.enabled = false;}*/
 
         
-        transform.LookAt(mouseTracker.transform, Vector3.up);
+        child.LookAt(mouseTracker.transform, Vector3.up);
 
 
     }
