@@ -75,6 +75,10 @@ public class MovementAndAiming : MonoBehaviour
 
         //movement
         Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (direction.x != 0 && direction.z != 0){
+            direction.x = direction.x * 0.85f;
+            direction.z = direction.z * 0.85f;
+        }
         if (controller.enabled){
             controller.Move(direction * PlayerSpeed);
             controller.Move(playerVelocity); //move down
@@ -118,6 +122,10 @@ public class MovementAndAiming : MonoBehaviour
         else scale = 100 / Screen.width;
 
         return (int) input * (int)scale;
+    }
+
+    public Transform mouseTarget(){
+        return mouseTracker.transform;
     }
 
     

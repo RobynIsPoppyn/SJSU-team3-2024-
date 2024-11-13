@@ -11,17 +11,32 @@ public class Gun : MonoBehaviour
     public GameObject mouseTracker; 
 
     public GameObject bulletTracer;
+    public GameObject superTracer;
+    public GameObject shotPoint;
+    public GameObject body; 
 
     [Header("Settings")]
     public float BulletSpeed = 0.5f;
 
     public float GunCooldown = 0.5f;
+    public float GunOffset = 1.5f;
 
     public float SuperShotCooldown = 0.5f; 
     public Vector3 SuperShotSize = new Vector3(0f, 0.5f, 1f);
+    public float SuperOffset = 2f;
+
+    public float TurnSpeedRadians;
+    public float MaxVector;
+    public float TurnUpdateRate;
+
+
+    //privates
     private Parry parry; 
     private bool GunCooldownDone; 
     private bool SuperCooldownDone; 
+    private CameraFollow camFollow; 
+    
+    
     
 
     // Start is called before the first frame update
@@ -31,8 +46,11 @@ public class Gun : MonoBehaviour
         GunCooldownDone = true;
         SuperCooldownDone = true;
         parry = transform.GetComponent<Parry>();
+        camFollow = Camera.main.GetComponent<CameraFollow>();
     }
 
+    float TurnTimer = 2f;
+    Vector3 shotEuler;
     // Update is called once per frame
     void Update()
     {
@@ -43,24 +61,35 @@ public class Gun : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Mouse0)){
             SuperShot();
         }
+
+        TurnTimer += Time.deltaTime;
+        if (TurnTimer >= TurnUpdateRate){
+            shotEuler = shotPoint.transform.eulerAngles;
+            TurnTimer = 0;
+        }
+        TurnBody(maa.mouseTarget());
+
+        
+        
     }
 
     Transform[] Fire(){ //returns the gameObjects that were hit 
         if (GunCooldownDone){
             bat.incrementCharge(-1); //Drain battery
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
-
+            camFollow.GunShake();
             //Drawing the ray in the editor (doesnt show up in game)
             Debug.DrawRay(maa.child.position, mouseTracker.transform.position - maa.child.position, Color.red, 20f);
             
-            RaycastHit[] hits = Physics.RaycastAll(maa.child.position, 
-                mouseTracker.transform.position - maa.child.position, 
+            RaycastHit[] hits = Physics.RaycastAll(shotPoint.transform.position, 
+                mouseTracker.transform.position - shotPoint.transform.position, 
                 maa.maxDistance, ~(1 << 3)); //everything hit in the path
             List<Transform> EnemiesHit = new List<Transform>(); //List of specifically enemies hit, will be coverted to an array
 
             System.Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
+            System.Array.Reverse(hits);
             bool hitWall = false;
-            Tracer(hits[hits.Length - 1].point);
+            Tracer(hits[hits.Length - 1].point + Vector3.up * GunOffset, bulletTracer);
             foreach (RaycastHit hit in hits) { //look at every hit
                 print(hit.transform.name);
                 if (hit.transform.gameObject.layer == 6) hitWall = true;
@@ -96,6 +125,7 @@ public class Gun : MonoBehaviour
     Transform[] SuperShot(){
         if (SuperCooldownDone && parry.CanSpinAction()){
             parry.UsedSpinAction = true;
+            camFollow.SuperShake();
             bat.incrementCharge(-1); //Drain battery
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
 
@@ -112,14 +142,14 @@ public class Gun : MonoBehaviour
             */
             print("Super Shot");
 
-            RaycastHit[] hits = Physics.BoxCastAll(maa.child.position, SuperShotSize, 
-                mouseTracker.transform.position - maa.child.position, maa.child.rotation,
+            RaycastHit[] hits = Physics.BoxCastAll(shotPoint.transform.position, SuperShotSize, 
+                mouseTracker.transform.position - shotPoint.transform.position, maa.child.rotation,
                 maa.maxDistance, ~(1 << 3)); //everything hit in the path
             List<Transform> EnemiesHit = new List<Transform>(); //List of specifically enemies hit, will be coverted to an array
 
             System.Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
             bool hitWall = false;
-            //Tracer(hits[hits.Length - 1].point);
+            Tracer(mouseTracker.transform.position + mouseTracker.transform.up * SuperOffset, superTracer);
             foreach (RaycastHit hit in hits) { //look at every hit
                 print(hit.transform.name);
                 if (hit.transform.gameObject.layer == 6) hitWall = true;
@@ -150,18 +180,20 @@ public class Gun : MonoBehaviour
         SuperCooldownDone = true;
     }
 
-    void Tracer(Vector3 lastHit){
+    void Tracer(Vector3 lastHit, GameObject bullet){
         
-        GameObject cloned = Instantiate(bulletTracer);
-        cloned.transform.position = transform.position;
+        GameObject cloned = Instantiate(bullet);
+        cloned.transform.position = shotPoint.transform.position;
         cloned.SetActive(true);
 
 
-        StartCoroutine(TracerHelper(cloned, transform.position, lastHit, 0));
+        StartCoroutine(TracerHelper(cloned, shotPoint.transform.position, lastHit, 0));
 
     }
 
     IEnumerator TracerHelper(GameObject cloned, Vector3 startPosition, Vector3 lastHit, int Counter){
+
+        
         Rigidbody rb = cloned.GetComponent<Rigidbody>();
         if (cloned.transform.position.Equals(lastHit) || Counter >= 5){
             Destroy(cloned);
@@ -178,5 +210,13 @@ public class Gun : MonoBehaviour
             StartCoroutine(TracerHelper(cloned, startPosition, lastHit, Counter + 1));
         }
 
+    }
+
+    float refVelocity = 0.0f;
+
+    void TurnBody(Transform start){
+
+        float Angle = Mathf.SmoothDampAngle(body.transform.eulerAngles.y, shotPoint.transform.eulerAngles.y, ref refVelocity, TurnUpdateRate);
+        body.transform.rotation = Quaternion.Euler(0, Angle, 0);
     }
 }

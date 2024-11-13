@@ -20,17 +20,22 @@ public class Parry : MonoBehaviour
     private Material Mat1;
     private Material Mat2;
     public bool UsedSpinAction{get; set;}
+    
+    public Animator animator;
+    private CameraFollow camFollow;
 
     private MovementAndAiming maa;
     // Start is called before the first frame update
     void Start()
     {
+        camFollow = Camera.main.GetComponent<CameraFollow>();
         rb = transform.GetComponent<Rigidbody>();
         cc = transform.GetComponent<CharacterController>();
         maa = transform.GetComponent<MovementAndAiming>();
         renderer = maa.child.GetComponent<Renderer>();
         Mat1 = new Material(renderer.materials[0]);
         Mat2 = new Material(renderer.materials[1]);
+        
 
     }
 
@@ -49,28 +54,31 @@ public class Parry : MonoBehaviour
 
         //Dodging
         
+        
+    
+
+    }
+    public void FixedUpdate(){
         if (Dodging && DodgeTimer <= DodgeLength){
             cc.enabled = false;
             DodgeTimer += Time.deltaTime;
-            rb.MovePosition(transform.position + DodgeForwardDirection * DodgeForce * Time.deltaTime);
-            print(DodgeForwardDirection + " " + transform.position + DodgeForwardDirection * DodgeForce * Time.deltaTime);
+            rb.MovePosition(transform.position + DodgeForwardDirection * DodgeForce);
+            //print(DodgeForwardDirection + " " + transform.position + DodgeForwardDirection * DodgeForce * Time.deltaTime);
         }
         else if (DodgeTimer >= DodgeLength){
             cc.enabled = true;
             DodgeTimer = 0f;
             Dodging = false;
         }
-    
-
     }
 
     public void Spin(){
         Debug.Log(renderer.materials[0]);
-        renderer.material = Mat2;
+        animator.Play("HatTestAnim");
         //Hit detection off
         //Slow movement
         //Activate chain to other moves 
-
+        camFollow.SpinZoom();
         Spinning = true;
         StartCoroutine(SpinWait());
         
@@ -78,15 +86,49 @@ public class Parry : MonoBehaviour
     }
     public void Dodge(){
         if (CanSpinAction()){
+            cc.enabled = false;  
             UsedSpinAction = true;
             Debug.Log("Dodge");
             Dodging = true;
-            print(transform.forward);
+            
             DodgeDirection = transform.position + transform.forward * DodgeForce;
-            DodgeForwardDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            if (DodgeForwardDirection.Equals(new Vector3(0, 0 , 0))){
+            DodgeForwardDirection = new Vector3(0, 0, 0);
+            //DodgeForwardDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            print(DodgeForwardDirection);
+
+            if(Input.GetKey(KeyCode.W)){
+                DodgeForwardDirection.z += 1;
+            }
+            if(Input.GetKey(KeyCode.S)){
+                DodgeForwardDirection.z -= 1;
+            }
+            if(Input.GetKey(KeyCode.A)){
+                DodgeForwardDirection.x -= 1;
+            }
+            if(Input.GetKey(KeyCode.D)){
+                DodgeForwardDirection.x += 1;
+            }
+            if (DodgeForwardDirection.x != 0 && DodgeForwardDirection.z != 0){
+                DodgeForwardDirection.x = DodgeForwardDirection.x / 1.333f;
+                DodgeForwardDirection.z = DodgeForwardDirection.z / 1.333f;
+            }
+     
+
+            /*
+            if (DodgeForwardDirection.Equals(new Vector3(0, 0, 0))){
                 DodgeForwardDirection = transform.forward;
             }
+            if (DodgeForwardDirection.x != 0 && DodgeForwardDirection.z != 0){
+                DodgeForwardDirection.x = 0.5f * Mathf.Sign(DodgeForwardDirection.x) * (float) Mathf.Abs((int)DodgeForwardDirection.x);
+                DodgeForwardDirection.z = 0.5f * Mathf.Sign(DodgeForwardDirection.z) * (float)Mathf.Abs((int)DodgeForwardDirection.z);
+            }
+            else {
+                DodgeForwardDirection.x = Mathf.Sign(DodgeForwardDirection.x) * (float)Mathf.Abs((int)DodgeForwardDirection.x);
+                
+                DodgeForwardDirection.z = Mathf.Sign(DodgeForwardDirection.z) * (float)Mathf.Abs((int)DodgeForwardDirection.z);
+                
+            }
+            print(DodgeForwardDirection + " After");*/
            // rb.AddForce(transform.forward * DodgeForce);
             
         }
@@ -99,6 +141,8 @@ public class Parry : MonoBehaviour
 
     public bool StopSpin(){
         if (Spinning){
+            camFollow.SpinUnzoom();
+            
             Spinning = false;
             UsedSpinAction = false;
             Debug.Log("Spin off");
