@@ -20,8 +20,8 @@ public class healthSystem : MonoBehaviour
         hb = FindObjectOfType<healthBar>();
 
         playerHealth = maxHealth;
-        hb.setHealth(playerHealth);
         hb.setMaxHealth(maxHealth);
+        hb.setHealth(playerHealth);
     }
 
     public void takeDamage(int harm)
