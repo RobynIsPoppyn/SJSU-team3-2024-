@@ -11,7 +11,6 @@ public class MovementAndAiming : MonoBehaviour
     public float PlayerSpeed = 50;
     
     public float gravityValue = 0.05f;
-
      
 
     private Vector3 playerVelocity;
@@ -79,7 +78,6 @@ public class MovementAndAiming : MonoBehaviour
 
 
 
-
         Vector3 temp = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0); //current position of the mouse
         temp.z = 10; //fix depth issues
         mousePos = Camera.main.ScreenToWorldPoint(temp);
@@ -98,7 +96,6 @@ public class MovementAndAiming : MonoBehaviour
             lineRenderer.enabled = true;
             Vector3[] lineEnds = new Vector3[2]{mouseTracker.transform.position, transform.position}; //For drawing the laser 
             lineRenderer.SetPositions(lineEnds); //Set laser positions
-
         }
         else {lineRenderer.enabled = false;}
 
