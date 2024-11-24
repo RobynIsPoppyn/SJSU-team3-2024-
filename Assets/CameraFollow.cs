@@ -21,12 +21,12 @@ public class CameraFollow : MonoBehaviour
         animator.Play("GunShake");
     }
     public void SuperShake(){
-        animator.Play("SuperGunShake");
+        animator.SetTrigger("Super");
     }
     public void SpinZoom(){
         //animator.SetTrigger("Spinning");
-        animator.Play("SpinZoom");
-        animator.SetBool("InSpin", true);
+        animator.SetTrigger("ZoomOut");
+        animator.SetBool("InSpin", true );
     }
     public void SpinUnzoom(){
         animator.SetBool("InSpin", false);
