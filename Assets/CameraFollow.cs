@@ -24,7 +24,8 @@ public class CameraFollow : MonoBehaviour
         animator.Play("SuperGunShake");
     }
     public void SpinZoom(){
-        animator.SetTrigger("Spinning");
+        //animator.SetTrigger("Spinning");
+        animator.Play("SpinZoom");
         animator.SetBool("InSpin", true);
     }
     public void SpinUnzoom(){

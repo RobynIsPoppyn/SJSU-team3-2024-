@@ -105,7 +105,8 @@ public class Parry : MonoBehaviour
         if (!CalledFromSpin){ // If it is called from a spin, there is a cooldown that will reset CanSpin from there, otherwise no cooldown
             CanSpin = true;
         }
-        if (Spinning){ //In case of a mishap where it is called and no spin is already being done
+        if (Spinning){ //In case of where it is called and no spin is already being done
+        animator.Play("HatDefaultTemp");
             camFollow.SpinUnzoom(); //Camera animation reverts
             
             Spinning = false;
@@ -122,42 +123,44 @@ public class Parry : MonoBehaviour
     public void Dodge(){
         if (CanSpinAction()){
             cc.enabled = false;  
-            StopSpin();
+           // StopSpin();
             UsedSpinAction = true;
             Debug.Log("Dodge");
         
-        if (StopSpin(false)){
-            SpinCounter++; //Let Spin() know that we've already called StopSpin;
-            cc.enabled = false;  //Further continue to turn off character controller so there's no conflicts
-            
-            Dodging = true;
-            
-            
-            DodgeForwardDirection = new Vector3(0, 0, 0);
-            
-            if(Input.GetKey(KeyCode.W)){ 
-                DodgeForwardDirection.z += 1;
-            }
-            if(Input.GetKey(KeyCode.S)){
-                DodgeForwardDirection.z -= 1;
-            }
-            if(Input.GetKey(KeyCode.A)){
-                DodgeForwardDirection.x -= 1;
-            }
-            if(Input.GetKey(KeyCode.D)){
-                DodgeForwardDirection.x += 1;
-            }
-            if (DodgeForwardDirection.x != 0 && DodgeForwardDirection.z != 0){ //If two are held at the same time they might do a really strong dodge, so its toned down
-                DodgeForwardDirection.x = DodgeForwardDirection.x / 1.333f;
-                DodgeForwardDirection.z = DodgeForwardDirection.z / 1.333f;
-            }
+            if (StopSpin(false)){
+                SpinCounter++; //Let Spin() know that we've already called StopSpin;
+                cc.enabled = false;  //Further continue to turn off character controller so there's no conflicts
+                
+                Dodging = true;
+                
+                
+                DodgeForwardDirection = new Vector3(0, 0, 0);
+                
+                if(Input.GetKey(KeyCode.W)){ 
+                    DodgeForwardDirection.z += 1;
+                }
+                if(Input.GetKey(KeyCode.S)){
+                    DodgeForwardDirection.z -= 1;
+                }
+                if(Input.GetKey(KeyCode.A)){
+                    DodgeForwardDirection.x -= 1;
+                }
+                if(Input.GetKey(KeyCode.D)){
+                    DodgeForwardDirection.x += 1;
+                }
+                if (DodgeForwardDirection.x != 0 && DodgeForwardDirection.z != 0){ //If two are held at the same time they might do a really strong dodge, so its toned down
+                    DodgeForwardDirection.x = DodgeForwardDirection.x / 1.333f;
+                    DodgeForwardDirection.z = DodgeForwardDirection.z / 1.333f;
+                }
             }
         }
     }
 
 
     public bool StopSpin(){
+        
         if (Spinning){
+            animator.Play("HatDefaultTemp");
             Spinning = false;
             UsedSpinAction = false;
             Debug.Log("Spin off");
