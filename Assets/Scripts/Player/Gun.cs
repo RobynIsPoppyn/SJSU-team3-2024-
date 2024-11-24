@@ -123,7 +123,9 @@ public class Gun : MonoBehaviour
     
 
     Transform[] SuperShot(){
-        if (SuperCooldownDone && parry.CanSpinAction()){
+        print("fuckcks");
+        if (SuperCooldownDone && parry.CanSpinAction() && parry.StopSpin(false)){
+            Parry.SpinCounter++;
             parry.UsedSpinAction = true;
             camFollow.SuperShake();
             bat.incrementCharge(-1); //Drain battery
