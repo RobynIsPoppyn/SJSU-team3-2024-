@@ -106,7 +106,7 @@ public class Parry : MonoBehaviour
             CanSpin = true;
         }
         if (Spinning){ //In case of where it is called and no spin is already being done
-        animator.Play("HatDefaultTemp");
+            animator.Play("HatDefaultTemp");
             camFollow.SpinUnzoom(); //Camera animation reverts
             
             Spinning = false;
@@ -126,8 +126,9 @@ public class Parry : MonoBehaviour
            // StopSpin();
             UsedSpinAction = true;
             Debug.Log("Dodge");
-        
-            if (StopSpin(false)){
+            bool stopspintemp = StopSpin(false);
+            //print("Dodge:  " + CanSpinAction() + "  " + stopspintemp);
+            if (stopspintemp){
                 SpinCounter++; //Let Spin() know that we've already called StopSpin;
                 cc.enabled = false;  //Further continue to turn off character controller so there's no conflicts
                 

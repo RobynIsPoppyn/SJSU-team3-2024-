@@ -123,10 +123,11 @@ public class Gun : MonoBehaviour
     
 
     Transform[] SuperShot(){
-        print("fuckcks");
-        if (SuperCooldownDone && parry.CanSpinAction() && parry.StopSpin(false)){
+        bool stopspintemp = parry.StopSpin(false);
+      //  print(parry.CanSpinAction() + "  " + stopspintemp);
+        if (parry.CanSpinAction() && stopspintemp){
             Parry.SpinCounter++;
-            parry.UsedSpinAction = true;
+            //parry.UsedSpinAction = true;
             camFollow.SuperShake();
             bat.incrementCharge(-1); //Drain battery
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
@@ -168,8 +169,9 @@ public class Gun : MonoBehaviour
             for (int i = 0;i < output.Length; i++){ // convert list to array
                 output[i] = EnemiesHit[i];
             }
-            SuperCooldownDone = false;
-            StartCoroutine(SuperCooldown());
+            print("Done");
+            //SuperCooldownDone = false;
+           // StartCoroutine(SuperCooldown());
             return output;
         }
 
