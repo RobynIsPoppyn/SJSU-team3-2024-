@@ -11,6 +11,7 @@ public class Parry : MonoBehaviour
     public float SpinCooldown = 1f;
     public float DodgeForce = 100f;
     public float DodgeLength = 0.6f;
+    public DashChecker dc;
 
     //Internal variables -- the ones set to public can't be seen in the unity inspector 
     private Rigidbody rb; 
@@ -28,6 +29,7 @@ public class Parry : MonoBehaviour
     public Animator animator;
     private CameraFollow camFollow;
     private MovementAndAiming maa;
+    private int SoftCancelDodge; //if the player hits a wall, stops them from jittering, but still keeps them locked into a dodge
 
 
     public static long SpinCounter{get; set;}
@@ -61,14 +63,27 @@ public class Parry : MonoBehaviour
 
         //Dodging
         
-        if (Dodging && DodgeTimer <= DodgeLength){
-            cc.enabled = false;
+        if (Dodging && DodgeTimer <= DodgeLength && SoftCancelDodge == 0){
+            if (dc.Colliding == false){
+                cc.enabled = false;
+                DodgeTimer += Time.deltaTime;
+                rb.isKinematic = false;
+                rb.MovePosition(transform.position + DodgeForwardDirection * DodgeForce); //Moves rigidbody to dodge after turning off the character controller so there's no conflict
+            }
+            else {
+                rb.isKinematic = false;
+                
+                SoftCancelDodge++;
+            }
+        }
+        else if (Dodging && DodgeTimer <= DodgeLength){
             DodgeTimer += Time.deltaTime;
-            rb.MovePosition(transform.position + DodgeForwardDirection * DodgeForce); //Moves rigidbody to dodge after turning off the character controller so there's no conflict
         }
         else if (DodgeTimer >= DodgeLength){ 
+            rb.isKinematic = true;
             cc.enabled = true;
             DodgeTimer = 0f;
+           
             Dodging = false; //turn cc back on and  end dodging 
         }
     
@@ -111,7 +126,7 @@ public class Parry : MonoBehaviour
             
             Spinning = false;
             UsedSpinAction = false;
-            Debug.Log("Spin off");
+           
 
             //renderer.material = Mat1; //was a temporary way to show spinning
 
@@ -122,10 +137,11 @@ public class Parry : MonoBehaviour
 
     public void Dodge(){
         if (CanSpinAction()){
+            SoftCancelDodge = 0;
             cc.enabled = false;  
            // StopSpin();
             UsedSpinAction = true;
-            Debug.Log("Dodge");
+          
             bool stopspintemp = StopSpin(false);
             //print("Dodge:  " + CanSpinAction() + "  " + stopspintemp);
             if (stopspintemp){
@@ -164,7 +180,7 @@ public class Parry : MonoBehaviour
             animator.Play("HatDefaultTemp");
             Spinning = false;
             UsedSpinAction = false;
-            Debug.Log("Spin off");
+           
 
             renderer.material = Mat1;
 
