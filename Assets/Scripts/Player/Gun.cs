@@ -20,6 +20,8 @@ public class Gun : MonoBehaviour
 
     public float GunCooldown = 0.5f;
     public float GunOffset = 1.5f;
+    public AudioSource shotSound;
+    public AudioSource superSound;
 
     public float SuperShotCooldown = 0.5f; 
     public Vector3 SuperShotSize = new Vector3(0f, 0.5f, 1f);
@@ -75,6 +77,7 @@ public class Gun : MonoBehaviour
 
     Transform[] Fire(){ //returns the gameObjects that were hit 
         if (GunCooldownDone){
+            shotSound.Play();
             bat.incrementCharge(-1); //Drain battery
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             camFollow.GunShake();
@@ -126,6 +129,7 @@ public class Gun : MonoBehaviour
         bool stopspintemp = parry.StopSpin(false);
       //  print(parry.CanSpinAction() + "  " + stopspintemp);
         if (parry.CanSpinAction() && stopspintemp){
+            superSound.Play();
             Parry.SpinCounter++;
             //parry.UsedSpinAction = true;
             camFollow.SuperShake();

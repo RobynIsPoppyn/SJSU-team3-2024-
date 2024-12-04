@@ -6,11 +6,14 @@ public class MovementAndAiming : MonoBehaviour
 {
     public Rigidbody rb;
     public CharacterController controller;
+    public Animator animator;
     public Camera cam;
     [Header("General Values")]
     public float PlayerSpeed = 50;
     
     public float gravityValue = 0.05f;
+    private Parry parry;
+    public AudioSource walkSound;
      
     
     private Vector3 playerVelocity;
@@ -23,6 +26,7 @@ public class MovementAndAiming : MonoBehaviour
     void Start()
     {
         playerVelocity = new Vector3(0, 0, 0);
+        parry = transform.GetComponent<Parry>();
 
        // mouseTracker = new GameObject(); //Creates an object for the character to look at that follows the mouse
     }
@@ -82,6 +86,18 @@ public class MovementAndAiming : MonoBehaviour
         if (controller.enabled){
             controller.Move(direction * PlayerSpeed);
             controller.Move(playerVelocity); //move down
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk") && !direction.Equals(Vector3.zero) && !parry.Spinning){
+                animator.Play("Walk");
+                if(walkSound.isPlaying == false){
+                    walkSound.Play();
+                    print("Played");
+                }
+              // print("walking anim" + animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk"));
+            }
+            else if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle") && Vector3.zero.Equals(direction * PlayerSpeed)){
+                animator.SetTrigger("Idle");
+                walkSound.Stop();
+            }
         }
 
 

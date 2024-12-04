@@ -43,8 +43,7 @@ public class Parry : MonoBehaviour
         cc = transform.GetComponent<CharacterController>();
         maa = transform.GetComponent<MovementAndAiming>();
         renderer = maa.child.GetComponent<Renderer>();
-        Mat1 = new Material(renderer.materials[0]);
-        Mat2 = new Material(renderer.materials[1]);
+    
 
     }
 
@@ -95,7 +94,7 @@ public class Parry : MonoBehaviour
         CanSpin = false;
         long temp = SpinCounter; //If these values are the same later, no other move activated StopSpin 
         
-        animator.Play("HatTestAnim"); //to be changed later to a different animation
+        animator.Play("Spin"); //to be changed later to a different animation
         camFollow.SpinZoom();  //Camera Animation
         Spinning = true;
         yield return new WaitForSeconds(SpinTime);
@@ -121,7 +120,7 @@ public class Parry : MonoBehaviour
             CanSpin = true;
         }
         if (Spinning){ //In case of where it is called and no spin is already being done
-            animator.Play("HatDefaultTemp");
+           
             camFollow.SpinUnzoom(); //Camera animation reverts
             
             Spinning = false;
@@ -152,19 +151,24 @@ public class Parry : MonoBehaviour
                 
                 
                 DodgeForwardDirection = new Vector3(0, 0, 0);
-                
+                string trigger = "Dodge";
                 if(Input.GetKey(KeyCode.W)){ 
                     DodgeForwardDirection.z += 1;
+                    trigger = "Dodge";
                 }
                 if(Input.GetKey(KeyCode.S)){
                     DodgeForwardDirection.z -= 1;
+                    trigger = "Dodge";
                 }
                 if(Input.GetKey(KeyCode.A)){
                     DodgeForwardDirection.x -= 1;
+                    trigger = "DodgeLeft";
                 }
                 if(Input.GetKey(KeyCode.D)){
                     DodgeForwardDirection.x += 1;
+                    trigger = "DodgeRight";
                 }
+                camFollow.SetTrigger(trigger);
                 if (DodgeForwardDirection.x != 0 && DodgeForwardDirection.z != 0){ //If two are held at the same time they might do a really strong dodge, so its toned down
                     DodgeForwardDirection.x = DodgeForwardDirection.x / 1.333f;
                     DodgeForwardDirection.z = DodgeForwardDirection.z / 1.333f;

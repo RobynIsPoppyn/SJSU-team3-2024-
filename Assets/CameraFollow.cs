@@ -31,4 +31,7 @@ public class CameraFollow : MonoBehaviour
     public void SpinUnzoom(){
         animator.SetBool("InSpin", false);
     }
+    public void SetTrigger(string s){
+        animator.SetTrigger(s);
+    }
 }
