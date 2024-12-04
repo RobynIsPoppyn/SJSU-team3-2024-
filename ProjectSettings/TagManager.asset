@@ -16,8 +16,8 @@ TagManager:
   - Enemy
   - OutlinedObjects
   - Outline2
-  - 
-  - 
+  - OutlinedWalkable
+  - Outlined2Walkable
   - 
   - 
   - 
