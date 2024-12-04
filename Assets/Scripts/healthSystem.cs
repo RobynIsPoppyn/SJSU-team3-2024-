@@ -7,7 +7,6 @@ public class healthSystem : MonoBehaviour
     public int maxHealth = 10;
     public int playerHealth;
 
-    public MovementAndAiming move;
     public healthBar hb;
 
     public bool deadFlag = false;
@@ -16,7 +15,6 @@ public class healthSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        move = FindObjectOfType<MovementAndAiming>();
         hb = FindObjectOfType<healthBar>();
 
         playerHealth = maxHealth;
@@ -32,7 +30,6 @@ public class healthSystem : MonoBehaviour
         if (playerHealth <= 0)
         {
             deadFlag = true;
-            move.enabled = false;
             playerHealth = 0;
         }
 

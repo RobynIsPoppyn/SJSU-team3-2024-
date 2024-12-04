@@ -4,16 +4,36 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    private int health;
-    public int maxHealth;
+    public int maxHealth = 10;
+    public int playerHealth;
 
-    public void Start(){
-        health = maxHealth;
+    public enemyHealthBar hb;
+
+    public bool deadFlag = false;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        hb = FindObjectOfType<enemyHealthBar>();
+
+        playerHealth = maxHealth;
+        hb.setMaxHealth(maxHealth);
+        hb.setHealth(playerHealth);
     }
-    public void incrementHealth(int input){
-        health += input;
-    }
-    public int getHealth(){
-        return health;
+
+    public void takeDamage(int harm)
+    {
+        Debug.Log("OUCH");
+        playerHealth -= harm;
+
+        if (playerHealth <= 0)
+        {
+            deadFlag = true;
+            playerHealth = 0;
+        }
+
+        hb.setHealth(playerHealth);
+
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7448828380380544578}
   - component: {fileID: 2618676510020923155}
   - component: {fileID: 4782763235066999797}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Spot Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 704137191703891978}
   - component: {fileID: 4468929149751164380}
   - component: {fileID: 4928834924290904889}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 6851411294437424085}
   - component: {fileID: 2239308474217120121}
   - component: {fileID: 1372252674020732206}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,8 @@ GameObject:
   - component: {fileID: 1193431463342910980}
   - component: {fileID: 1723906856078768285}
   - component: {fileID: 672132095527800756}
-  m_Layer: 2
+  - component: {fileID: 7042914192166655765}
+  m_Layer: 12
   m_Name: BulletObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,6 +561,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: {fileID: 0}
+--- !u!135 &7042914192166655765
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6025844310343455938}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6451606490137862310
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +593,7 @@ GameObject:
   - component: {fileID: 3981281685156550203}
   - component: {fileID: 5673856503948464012}
   - component: {fileID: 7332515002019346054}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Spot Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
