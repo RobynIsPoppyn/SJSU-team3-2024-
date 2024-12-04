@@ -10,6 +10,7 @@ public class EnemyAttack : MonoBehaviour, EnemyMove
     private EnemyAI ai; 
     public float cooldownAccessor;
     public Transform shotPoint;
+    public Animator animator;
     public float Cooldown{
         get;
         set;
@@ -21,6 +22,7 @@ public class EnemyAttack : MonoBehaviour, EnemyMove
     
     }
     public bool Act(){
+        animator.SetTrigger("Shoot");
         //Debug.Log("Shooting");
         GameObject cloned = Instantiate(bulletPrefab, shotPoint.position, 
             transform.rotation, null);

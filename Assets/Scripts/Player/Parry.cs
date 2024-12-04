@@ -11,7 +11,10 @@ public class Parry : MonoBehaviour
     public float SpinCooldown = 1f;
     public float DodgeForce = 100f;
     public float DodgeLength = 0.6f;
+    public float parrySlow = 0.035f;
+    private float defaultSpeed;
     public DashChecker dc;
+    
 
     //Internal variables -- the ones set to public can't be seen in the unity inspector 
     private Rigidbody rb; 
@@ -92,6 +95,9 @@ public class Parry : MonoBehaviour
     public IEnumerator Spin(){
        if (CanSpin){ //Checks if cooldown off
         CanSpin = false;
+        defaultSpeed = maa.PlayerSpeed;
+        maa.PlayerSpeed = parrySlow;
+    
         long temp = SpinCounter; //If these values are the same later, no other move activated StopSpin 
         
         animator.Play("Spin"); //to be changed later to a different animation
@@ -128,7 +134,7 @@ public class Parry : MonoBehaviour
            
 
             //renderer.material = Mat1; //was a temporary way to show spinning
-
+            maa.PlayerSpeed = defaultSpeed;
             return true;
         }
         else return false;
