@@ -6,9 +6,11 @@ public class Bullet : MonoBehaviour
 {
 
     bool clone = false;
+    public AudioSource sound;
     // Start is called before the first frame update
     void Start()
     {
+        sound = GameObject.Find("EnemyBulletNoise").transform.GetComponent<AudioSource>();
         StartCoroutine(end());
     }
     public void CloneBullet(){
@@ -17,6 +19,7 @@ public class Bullet : MonoBehaviour
     }
 
     public IEnumerator end(){
+        sound.Play();
         
         yield return new WaitForSeconds(3f);
         if (clone == true)

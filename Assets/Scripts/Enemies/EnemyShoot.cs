@@ -9,6 +9,7 @@ public class EnemyAttack : MonoBehaviour, EnemyMove
     public GameObject bulletPrefab;
     private EnemyAI ai; 
     public float cooldownAccessor;
+    public Transform shotPoint;
     public float Cooldown{
         get;
         set;
@@ -21,7 +22,7 @@ public class EnemyAttack : MonoBehaviour, EnemyMove
     }
     public bool Act(){
         //Debug.Log("Shooting");
-        GameObject cloned = Instantiate(bulletPrefab, transform.position, 
+        GameObject cloned = Instantiate(bulletPrefab, shotPoint.position, 
             transform.rotation, null);
         cloned.GetComponent<Bullet>().CloneBullet();
 
