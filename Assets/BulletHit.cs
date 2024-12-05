@@ -10,9 +10,9 @@ public class BulletHit : MonoBehaviour
     {
         if (collider.gameObject.layer == 12) 
         {
-            hs.takeDamage(1);
+            hs.takeDamage(BaseBulletDamage);
             Debug.Log("Player hit by bullet!");
-            
+            Destroy(collider.gameObject);
         }
     }
 }

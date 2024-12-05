@@ -6,18 +6,16 @@ using UnityEngine.UI;
 public class enemyHealthBar : MonoBehaviour
 {
     public Slider slider;
+    public GameObject cam;
 
-    public void setHealth(int health)
+    public void updateEnemyHealthBar(float currentVal, float maxVal)
     {
-        slider.value = health;
-        Debug.Log("healthSET");
+        slider.value = currentVal/maxVal;
     }
 
-    public void setMaxHealth(int health)
+    public void Update()
     {
-        slider.maxValue = health;
-        slider.value = health;
-        Debug.Log("maxHEALTH set");
-
+        Debug.Log(cam.transform + cam.name);
+        transform.rotation = cam.transform.rotation;
     }
 }
