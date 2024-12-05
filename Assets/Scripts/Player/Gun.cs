@@ -106,7 +106,7 @@ public class Gun : MonoBehaviour
                 if (!hitWall){ //Check if we hit a wall to prevent going through
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
-                        enemyHealth.takeDamage(2);
+                        enemyHealth.takeDamage(1);
                        // print(enemyHealth.getHealth());
                         EnemiesHit.Add(hit.transform);
                     }
@@ -136,6 +136,7 @@ public class Gun : MonoBehaviour
         bool stopspintemp = parry.StopSpin(false);
       //  print(parry.CanSpinAction() + "  " + stopspintemp);
         if (parry.CanSpinAction() && stopspintemp){
+            parry.isInvincible = false;
             hs.takeDamage(superSelfDamage);
             handAnim.SetTrigger("Shoot");
             superSound.Play();

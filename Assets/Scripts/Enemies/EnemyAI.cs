@@ -19,7 +19,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        
+        target = GameObject.Find("Player").transform;
         foreach (EnemyMove x in gameObject.GetComponents<EnemyMove>()){ //Add every move component in an enemy to this list
             MoveList.Add(x);
         }

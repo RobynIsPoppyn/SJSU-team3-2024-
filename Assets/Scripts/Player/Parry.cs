@@ -112,10 +112,11 @@ public class Parry : MonoBehaviour
         Spinning = true;
 
         StartCoroutine(EnableIframes(iFrameDuration));
-        isInvincible = true;
+        
 
         yield return new WaitForSeconds(SpinTime);
-        if (temp == SpinCounter){ //We check if this spin has been manually turned off via another player move, or if it has been let run
+        if (temp == SpinCounter){
+            isInvincible = true; //We check if this spin has been manually turned off via another player move, or if it has been let run
             StopSpin(true);
             StartCoroutine(InitiateSpinCooldown()); 
         }

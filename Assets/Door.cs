@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private LevelManager lm;
+
+    public void Start(){lm = GameObject.Find("LevelManager").GetComponent<LevelManager>();}
+    public void OnTriggerEnter(Collider collider){
+        if (collider.tag == "Player"){
+            print("DoorHit");
+            lm.LoadNext();
+        }
     }
 }

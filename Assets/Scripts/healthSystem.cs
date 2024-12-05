@@ -36,6 +36,10 @@ public class healthSystem : MonoBehaviour
         }
     }
 
+    void Update(){
+        hb.setHealth(playerHealth);
+    }
+
     public void takeDamage(int harm)
     {
         takeDamage(harm, parryScript.isInvincible);
