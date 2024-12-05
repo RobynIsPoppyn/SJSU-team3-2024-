@@ -16,11 +16,13 @@ public class healthSystem : MonoBehaviour
     
     private Parry parryScript;
     private Animator animPP;
+    private BulletHit bh; 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        bh = transform.GetComponent<BulletHit>();
         maa = transform.GetComponent<MovementAndAiming>();
         hb = FindObjectOfType<healthBar>();
         animPP = GameObject.Find("GlobalPostProcessing").GetComponent<Animator>();
@@ -48,7 +50,7 @@ public class healthSystem : MonoBehaviour
 
     public void takeDamage(int harm, bool Invincible){
         print(Invincible);
-        if (Invincible)
+        if (Invincible || bh.Safety)
         {
             if (parryScript.Spinning) heal(parryHeal);
             Debug.Log("Player is invincible! No damage taken.");

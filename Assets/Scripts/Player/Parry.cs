@@ -7,8 +7,8 @@ public class Parry : MonoBehaviour
     public bool Spinning{get; private set;}
     [Header("Settings")]
 
-    public float SpinTime = 1.5f;
-    public float SpinCooldown = 1f;
+    public float SpinTime = 1f;
+    public float SpinCooldown = 0.5f;
     public float DodgeForce = 100f;
     public float DodgeLength = 0.6f;
     public int dodgeSelfDamage = 3;
@@ -18,7 +18,7 @@ public class Parry : MonoBehaviour
 
     public float iFrameDuration = 0.5f;
 
-    public bool isInvincible;
+    public bool isInvincible {get; private set;}
     public int originalLayer;
     
 
@@ -104,7 +104,7 @@ public class Parry : MonoBehaviour
         CanSpin = false;
         defaultSpeed = maa.PlayerSpeed;
         maa.PlayerSpeed = parrySlow;
-    
+        isInvincible = true;
         long temp = SpinCounter; //If these values are the same later, no other move activated StopSpin 
         
         animator.Play("Spin"); //to be changed later to a different animation
@@ -116,7 +116,7 @@ public class Parry : MonoBehaviour
 
         yield return new WaitForSeconds(SpinTime);
         if (temp == SpinCounter){
-            isInvincible = true; //We check if this spin has been manually turned off via another player move, or if it has been let run
+             //We check if this spin has been manually turned off via another player move, or if it has been let run
             StopSpin(true);
             StartCoroutine(InitiateSpinCooldown()); 
         }
@@ -205,7 +205,7 @@ public class Parry : MonoBehaviour
             animator.Play("HatDefaultTemp");
             Spinning = false;
             UsedSpinAction = false;
-           
+            isInvincible = false;
 
             renderer.material = Mat1;
 

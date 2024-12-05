@@ -750,14 +750,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpinTime: 1.5
-  SpinCooldown: 1
+  SpinCooldown: 0.5
   DodgeForce: 0.3
   DodgeLength: 0.3
   dodgeSelfDamage: 3
   parrySlow: 0.035
   dc: {fileID: 5395170396933165532}
   iFrameDuration: 0.5
-  isInvincible: 0
   originalLayer: 0
   animator: {fileID: 2710287281824211805}
 --- !u!23 &2112037890645658180

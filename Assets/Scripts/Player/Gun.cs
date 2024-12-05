@@ -139,7 +139,7 @@ public class Gun : MonoBehaviour
         bool stopspintemp = parry.StopSpin(false);
       //  print(parry.CanSpinAction() + "  " + stopspintemp);
         if (parry.CanSpinAction() && stopspintemp){
-            parry.isInvincible = false;
+            
             hs.takeDamage(superSelfDamage);
             handAnim.SetTrigger("Shoot");
             superSound.Play();

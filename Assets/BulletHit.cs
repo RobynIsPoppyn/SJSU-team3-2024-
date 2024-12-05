@@ -7,7 +7,7 @@ public class BulletHit : MonoBehaviour
     public float SafetyWindow = 0.2f;
     private healthSystem hs;
 
-    private bool Safety = false;
+    public bool Safety {get; private set;}
 
     public void Start(){hs = transform.GetComponent<healthSystem>();}
     private void OnTriggerEnter(Collider collider)
@@ -15,7 +15,7 @@ public class BulletHit : MonoBehaviour
         if (collider.gameObject.layer == 12) 
         {
             
-            hs.takeDamage(BaseBulletDamage, Safety);
+            hs.takeDamage(BaseBulletDamage);
             StartCoroutine(CooldownSafety());
             Debug.Log("Player hit by bullet!");
             Destroy(collider.gameObject);
