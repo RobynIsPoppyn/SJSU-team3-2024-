@@ -6,6 +6,8 @@ public class healthSystem : MonoBehaviour
 {
     public int maxHealth = 10;
     public int parryHeal = 3;
+
+    
     public int playerHealth;
 
     public healthBar hb;
@@ -18,10 +20,14 @@ public class healthSystem : MonoBehaviour
     private Animator animPP;
     private BulletHit bh; 
 
+    private AudioSource audioSource;
+    private AudioSource parrySound;
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GameObject.Find("DeathSound").GetComponent<AudioSource>();
+        parrySound = GameObject.Find("ParrySound").GetComponent<AudioSource>();
         bh = transform.GetComponent<BulletHit>();
         maa = transform.GetComponent<MovementAndAiming>();
         hb = FindObjectOfType<healthBar>();
@@ -49,6 +55,7 @@ public class healthSystem : MonoBehaviour
     }
 
     public void takeDamage(int harm, bool Invincible){
+        
         print(Invincible);
         if (Invincible || bh.Safety)
         {
@@ -72,6 +79,7 @@ public class healthSystem : MonoBehaviour
 
     public void heal(int heal)
     {
+        parrySound.Play();
         animPP.Play("Base Layer.HealPP");
         playerHealth += heal;
 
@@ -82,6 +90,7 @@ public class healthSystem : MonoBehaviour
     }
 
     public void Die(){
+        audioSource.Play();
         print("Dead");
         maa.Dead = true;
     }

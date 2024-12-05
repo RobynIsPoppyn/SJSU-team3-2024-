@@ -40,7 +40,7 @@ public class Parry : MonoBehaviour
     private MovementAndAiming maa;
     private int SoftCancelDodge; //if the player hits a wall, stops them from jittering, but still keeps them locked into a dodge
     private healthSystem hs; 
-
+    private AudioSource DashSound;
     public static long SpinCounter{get; set;}
     
     // Start is called before the first frame update
@@ -53,6 +53,8 @@ public class Parry : MonoBehaviour
         cc = transform.GetComponent<CharacterController>();
         maa = transform.GetComponent<MovementAndAiming>();
         renderer = maa.child.GetComponent<Renderer>();
+        DashSound = GameObject.Find("DashSound").GetComponent<AudioSource>();
+
     
 
     }
@@ -101,6 +103,7 @@ public class Parry : MonoBehaviour
 
     public IEnumerator Spin(){
        if (CanSpin){ //Checks if cooldown off
+       DashSound.Play();
         CanSpin = false;
         defaultSpeed = maa.PlayerSpeed;
         maa.PlayerSpeed = parrySlow;
@@ -154,6 +157,7 @@ public class Parry : MonoBehaviour
 
     public void Dodge(){
         if (CanSpinAction()){
+            DashSound.Play();
             hs.takeDamage(dodgeSelfDamage, false);
             isInvincible = true;
             StartCoroutine(EnableIframes(iFrameDuration));

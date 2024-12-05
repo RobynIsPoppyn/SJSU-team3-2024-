@@ -13788,7 +13788,7 @@ GameObject:
   - component: {fileID: 2648764053200886114}
   - component: {fileID: 5343236024152922682}
   - component: {fileID: 335126778415891000}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: GDC-VID-TrainWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

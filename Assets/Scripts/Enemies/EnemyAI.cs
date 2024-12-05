@@ -35,6 +35,7 @@ public class EnemyAI : MonoBehaviour
         timeSinceAbility += Time.deltaTime; 
         float distance = Vector3.Distance(target.position, transform.position); //distance between the target and player
         if (distance <= lookRadius && agent.enabled){ //If the enemy is in range and the nav agent is working
+            lookRadius = 10f;
             agent.SetDestination(target.position);
             FaceTarget(); 
             if (distance <= agent.stoppingDistance && timeSinceAbility >= 0.1f){ //Once the enemy is close enough to the player that it stops (might be changed)

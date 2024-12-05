@@ -9,6 +9,8 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         animator = transform.GetComponent<Animator>();    
+       
+        
     }
 
     // Update is called once per frame

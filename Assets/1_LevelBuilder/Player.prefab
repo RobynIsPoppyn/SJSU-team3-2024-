@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c0ed56592ba14469f79d9c5b5218c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseBulletDamage: 1
+  BaseBulletDamage: 3
   SafetyWindow: 0.2
 --- !u!1 &1587073296995110263
 GameObject:

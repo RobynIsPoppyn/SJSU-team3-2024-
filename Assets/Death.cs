@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
-    void Die(){
+      void Die(){
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
