@@ -57,11 +57,11 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !parry.Spinning){
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !parry.Spinning && !maa.Dead){
             Debug.Log("Fired");
             Fire();
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0)){
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && !maa.Dead){
             SuperShot();
         }
 
@@ -70,6 +70,7 @@ public class Gun : MonoBehaviour
             shotEuler = shotPoint.transform.eulerAngles;
             TurnTimer = 0;
         }
+        if (!maa.Dead)
         TurnBody(maa.mouseTarget());
 
         

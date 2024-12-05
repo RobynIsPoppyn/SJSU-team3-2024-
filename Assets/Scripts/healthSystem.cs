@@ -11,10 +11,14 @@ public class healthSystem : MonoBehaviour
 
     public bool deadFlag = false;
 
+    private MovementAndAiming maa;
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
+        maa = transform.GetComponent<MovementAndAiming>();
         hb = FindObjectOfType<healthBar>();
 
         playerHealth = maxHealth;
@@ -31,6 +35,7 @@ public class healthSystem : MonoBehaviour
         {
             deadFlag = true;
             playerHealth = 0;
+            Die();
         }
 
         hb.setHealth(playerHealth);
@@ -45,5 +50,10 @@ public class healthSystem : MonoBehaviour
         {
             playerHealth = maxHealth;
         }
+    }
+
+    public void Die(){
+        print("Dead");
+        maa.Dead = true;
     }
 }

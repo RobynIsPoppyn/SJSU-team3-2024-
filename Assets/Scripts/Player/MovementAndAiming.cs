@@ -18,13 +18,17 @@ public class MovementAndAiming : MonoBehaviour
     
     private Vector3 playerVelocity;
     public GameObject mouseTracker;
-        public LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
+    public bool Dead {get; set;}
+    public bool DyingProcess;
 
 
     
     // Start is called before the first frame update
     void Start()
     {
+        Dead = false;
+        DyingProcess = false;
         playerVelocity = new Vector3(0, 0, 0);
         parry = transform.GetComponent<Parry>();
 
@@ -55,6 +59,9 @@ public class MovementAndAiming : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Dead) {
+            DeathAnim(DyingProcess);
+        }
         
         
         //mousePos = Input.mousePosition;
@@ -83,7 +90,7 @@ public class MovementAndAiming : MonoBehaviour
             direction.x = direction.x * 0.85f;
             direction.z = direction.z * 0.85f;
         }
-        if (controller.enabled){
+        if (controller.enabled && !Dead){
             controller.Move(direction * PlayerSpeed);
             controller.Move(playerVelocity); //move down
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk") && !direction.Equals(Vector3.zero) && !parry.Spinning){
@@ -98,6 +105,9 @@ public class MovementAndAiming : MonoBehaviour
                 animator.SetTrigger("Idle");
                 walkSound.Stop();
             }
+        }
+        else if (Dead) {
+            walkSound.Stop();
         }
 
 
@@ -123,8 +133,7 @@ public class MovementAndAiming : MonoBehaviour
             lineRenderer.SetPositions(lineEnds); //Set laser positions
         }
         else {lineRenderer.enabled = false;}*/
-
-        
+        if (!Dead)
         child.LookAt(mouseTracker.transform, Vector3.up);
 
 
@@ -142,6 +151,12 @@ public class MovementAndAiming : MonoBehaviour
 
     public Transform mouseTarget(){
         return mouseTracker.transform;
+    }
+    public void DeathAnim(bool Done){
+        if (!Done){
+            DyingProcess = true;
+            animator.Play("Death 0");
+        }
     }
 
     
