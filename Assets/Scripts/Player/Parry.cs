@@ -11,6 +11,7 @@ public class Parry : MonoBehaviour
     public float SpinCooldown = 1f;
     public float DodgeForce = 100f;
     public float DodgeLength = 0.6f;
+    public int dodgeSelfDamage = 3;
     public float parrySlow = 0.035f;
     private float defaultSpeed;
     public DashChecker dc;
@@ -38,15 +39,16 @@ public class Parry : MonoBehaviour
     private CameraFollow camFollow;
     private MovementAndAiming maa;
     private int SoftCancelDodge; //if the player hits a wall, stops them from jittering, but still keeps them locked into a dodge
-
+    private healthSystem hs; 
 
     public static long SpinCounter{get; set;}
     
     // Start is called before the first frame update
     void Start()
     {
+        hs = transform.GetComponent<healthSystem>();
         SpinCounter = 0;
-        camFollow = Camera.main.GetComponent<CameraFollow>();
+        camFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
         rb = transform.GetComponent<Rigidbody>();
         cc = transform.GetComponent<CharacterController>();
         maa = transform.GetComponent<MovementAndAiming>();
@@ -61,10 +63,10 @@ public class Parry : MonoBehaviour
     Vector3 temp;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !Spinning){
+        if (Input.GetKeyDown(KeyCode.Space) && !Spinning && !maa.Dead){
             StartCoroutine(Spin());
         }
-        else if (Input.GetKeyDown(KeyCode.Space)){
+        else if (Input.GetKeyDown(KeyCode.Space) && !maa.Dead){
             Dodge();
         }
 
@@ -90,7 +92,7 @@ public class Parry : MonoBehaviour
             rb.isKinematic = true;
             cc.enabled = true;
             DodgeTimer = 0f;
-           
+           isInvincible = false;
             Dodging = false; //turn cc back on and  end dodging 
         }
     
@@ -108,6 +110,10 @@ public class Parry : MonoBehaviour
         animator.Play("Spin"); //to be changed later to a different animation
         camFollow.SpinZoom();  //Camera Animation
         Spinning = true;
+
+        StartCoroutine(EnableIframes(iFrameDuration));
+        isInvincible = true;
+
         yield return new WaitForSeconds(SpinTime);
         if (temp == SpinCounter){ //We check if this spin has been manually turned off via another player move, or if it has been let run
             StopSpin(true);
@@ -131,7 +137,7 @@ public class Parry : MonoBehaviour
             CanSpin = true;
         }
         if (Spinning){ //In case of where it is called and no spin is already being done
-           
+            isInvincible = false;
             camFollow.SpinUnzoom(); //Camera animation reverts
             
             Spinning = false;
@@ -147,6 +153,8 @@ public class Parry : MonoBehaviour
 
     public void Dodge(){
         if (CanSpinAction()){
+            hs.takeDamage(dodgeSelfDamage, false);
+            isInvincible = true;
             StartCoroutine(EnableIframes(iFrameDuration));
             SoftCancelDodge = 0;
             cc.enabled = false;  
@@ -214,10 +222,11 @@ public class Parry : MonoBehaviour
 
     private IEnumerator EnableIframes(float duration)
     {
-        isInvincible = true;
-        gameObject.layer = LayerMask.NameToLayer("IgnoreEnemy"); 
+        print("iFrames");
+        
+        //gameObject.layer = LayerMask.NameToLayer("IgnoreEnemy"); 
         yield return new WaitForSeconds(duration);
-        gameObject.layer = originalLayer; 
-        isInvincible = false;
+        //gameObject.layer = originalLayer; 
+        
     }
 }

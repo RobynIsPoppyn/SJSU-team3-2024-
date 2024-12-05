@@ -21,12 +21,14 @@ public class Gun : MonoBehaviour
 
     public float GunCooldown = 0.5f;
     public float GunOffset = 1.5f;
+    public int gunSelfDamage = 1;
     public AudioSource shotSound;
     public AudioSource superSound;
 
     public float SuperShotCooldown = 0.5f; 
     public Vector3 SuperShotSize = new Vector3(0f, 0.5f, 1f);
     public float SuperOffset = 2f;
+    public int superSelfDamage = 4;
 
     public float TurnSpeedRadians;
     public float MaxVector;
@@ -38,6 +40,7 @@ public class Gun : MonoBehaviour
     private bool GunCooldownDone; 
     private bool SuperCooldownDone; 
     private CameraFollow camFollow; 
+    private healthSystem hs;
     
     
     
@@ -49,7 +52,8 @@ public class Gun : MonoBehaviour
         GunCooldownDone = true;
         SuperCooldownDone = true;
         parry = transform.GetComponent<Parry>();
-        camFollow = Camera.main.GetComponent<CameraFollow>();
+        camFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
+        hs = transform.GetComponent<healthSystem>();
     }
 
     float TurnTimer = 2f;
@@ -81,7 +85,7 @@ public class Gun : MonoBehaviour
         if (GunCooldownDone){
             handAnim.SetTrigger("Shoot");
             shotSound.Play();
-            bat.incrementCharge(-1); //Drain battery
+            hs.takeDamage(gunSelfDamage);
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             camFollow.GunShake();
             //Drawing the ray in the editor (doesnt show up in game)
@@ -132,6 +136,7 @@ public class Gun : MonoBehaviour
         bool stopspintemp = parry.StopSpin(false);
       //  print(parry.CanSpinAction() + "  " + stopspintemp);
         if (parry.CanSpinAction() && stopspintemp){
+            hs.takeDamage(superSelfDamage);
             handAnim.SetTrigger("Shoot");
             superSound.Play();
             Parry.SpinCounter++;
@@ -151,7 +156,7 @@ public class Gun : MonoBehaviour
             Vector3 center;
             center = maa.maxDistance transform.position 
             */
-            print("Super Shot");
+
 
             RaycastHit[] hits = Physics.BoxCastAll(shotPoint.transform.position, SuperShotSize, 
                 mouseTracker.transform.position - shotPoint.transform.position, maa.child.rotation,
@@ -162,13 +167,12 @@ public class Gun : MonoBehaviour
             bool hitWall = false;
             Tracer(mouseTracker.transform.position + mouseTracker.transform.up * SuperOffset, superTracer);
             foreach (RaycastHit hit in hits) { //look at every hit
-                print(hit.transform.name);
                 if (hit.transform.gameObject.layer == 6) hitWall = true;
                 if (!hitWall){ //Check if we hit a wall to prevent going through
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
                         enemyHealth.takeDamage(3);
-                        Debug.Log("enemyHITTT");
+
                         EnemiesHit.Add(hit.transform);
                     }
                 }
@@ -177,7 +181,7 @@ public class Gun : MonoBehaviour
             for (int i = 0;i < output.Length; i++){ // convert list to array
                 output[i] = EnemiesHit[i];
             }
-            print("Done");
+
             //SuperCooldownDone = false;
            // StartCoroutine(SuperCooldown());
             return output;

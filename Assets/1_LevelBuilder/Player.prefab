@@ -634,6 +634,7 @@ MonoBehaviour:
   walkSound: {fileID: 0}
   mouseTracker: {fileID: 0}
   lineRenderer: {fileID: 0}
+  DyingProcess: 0
   groundedSphereOffset: 0.5
   groundedSphereRadius: 0.1
   maxDistance: 50
@@ -726,11 +727,13 @@ MonoBehaviour:
   BulletSpeed: 0.5
   GunCooldown: 0.5
   GunOffset: 0.1
+  gunSelfDamage: 1
   shotSound: {fileID: 0}
   superSound: {fileID: 0}
   SuperShotCooldown: 0.5
   SuperShotSize: {x: 3, y: 1, z: 0}
   SuperOffset: 2
+  superSelfDamage: 4
   TurnSpeedRadians: 3
   MaxVector: 2
   TurnUpdateRate: 0.5
@@ -750,8 +753,12 @@ MonoBehaviour:
   SpinCooldown: 1
   DodgeForce: 0.3
   DodgeLength: 0.3
+  dodgeSelfDamage: 3
   parrySlow: 0.035
   dc: {fileID: 5395170396933165532}
+  iFrameDuration: 0.5
+  isInvincible: 0
+  originalLayer: 0
   animator: {fileID: 2710287281824211805}
 --- !u!23 &2112037890645658180
 MeshRenderer:
@@ -815,7 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30ef1ae7552e5d40a574f7cb1a2cb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 20
   playerHealth: 0
   hb: {fileID: 0}
   deadFlag: 0

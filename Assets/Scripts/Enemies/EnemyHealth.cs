@@ -15,14 +15,18 @@ public class EnemyHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        hb = GetComponent<enemyHealthBar>(); 
+        //hb = transform.GetComponent<enemyHealthBar>(); 
         enemyHealth = maxHealth;
 
+        
+    }
+    void Update(){
         hb.updateEnemyHealthBar(enemyHealth,maxHealth);
     }
 
     public void takeDamage(int harm)
     {
+        hb.updateEnemyHealthBar(enemyHealth,maxHealth);
         Debug.Log("enemyOUCH");
         enemyHealth -= harm;
 

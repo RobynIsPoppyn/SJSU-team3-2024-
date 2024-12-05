@@ -8,6 +8,9 @@ public class enemyHealthBar : MonoBehaviour
     public Slider slider;
     public Camera cam;
 
+    void Start(){
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
     public void updateEnemyHealthBar(float currentVal, float maxVal)
     {
         slider.value = currentVal/maxVal;

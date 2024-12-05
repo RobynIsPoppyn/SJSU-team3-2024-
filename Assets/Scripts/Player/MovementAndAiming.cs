@@ -97,7 +97,6 @@ public class MovementAndAiming : MonoBehaviour
                 animator.Play("Walk");
                 if(walkSound.isPlaying == false){
                     walkSound.Play();
-                    print("Played");
                 }
               // print("walking anim" + animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk"));
             }

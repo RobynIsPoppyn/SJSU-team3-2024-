@@ -5,6 +5,7 @@ using UnityEngine;
 public class healthSystem : MonoBehaviour
 {
     public int maxHealth = 10;
+    public int parryHeal = 3;
     public int playerHealth;
 
     public healthBar hb;
@@ -14,6 +15,7 @@ public class healthSystem : MonoBehaviour
     private MovementAndAiming maa;
     
     private Parry parryScript;
+    private Animator animPP;
 
 
     // Start is called before the first frame update
@@ -21,7 +23,8 @@ public class healthSystem : MonoBehaviour
     {
         maa = transform.GetComponent<MovementAndAiming>();
         hb = FindObjectOfType<healthBar>();
-
+        animPP = GameObject.Find("GlobalPostProcessing").GetComponent<Animator>();
+        
         playerHealth = maxHealth;
         hb.setMaxHealth(maxHealth);
         hb.setHealth(playerHealth);
@@ -35,15 +38,22 @@ public class healthSystem : MonoBehaviour
 
     public void takeDamage(int harm)
     {
-        print(parryScript.isInvincible);
-        if (parryScript.isInvincible && parryScript.Spinning)
+        takeDamage(harm, parryScript.isInvincible);
+
+    }
+
+    public void takeDamage(int harm, bool Invincible){
+        print(Invincible);
+        if (Invincible)
         {
+            if (parryScript.Spinning) heal(parryHeal);
             Debug.Log("Player is invincible! No damage taken.");
             return;
         }
         
+        
         playerHealth -= harm;
-
+        animPP.Play("Base Layer.DamagePP");
         if (playerHealth <= 0)
         {
             deadFlag = true;
@@ -52,11 +62,11 @@ public class healthSystem : MonoBehaviour
         }
 
         hb.setHealth(playerHealth);
-
     }
 
     public void heal(int heal)
     {
+        animPP.Play("Base Layer.HealPP");
         playerHealth += heal;
 
         if (playerHealth > maxHealth)

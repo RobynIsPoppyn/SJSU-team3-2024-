@@ -11,7 +11,7 @@ public class DashChecker : MonoBehaviour
     public void OnTriggerStay(Collider other){
         
         if (other.transform.tag.Equals("Wall")){
-            Debug.Log(other);
+            
             Colliding = true;
         }
     }

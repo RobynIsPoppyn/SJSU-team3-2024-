@@ -21,9 +21,9 @@ TagManager:
   - Bullet
   - NoPost
   - Test
-  - 
-  - 
-  - 
+  - RenderMeNoOutline
+  - GlobalPostProcessing
+  - RedVignettePP
   - 
   - 
   - 
