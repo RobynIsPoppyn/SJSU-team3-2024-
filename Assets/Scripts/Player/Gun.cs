@@ -14,6 +14,7 @@ public class Gun : MonoBehaviour
     public GameObject superTracer;
     public GameObject shotPoint;
     public GameObject body; 
+    public Animator handAnim; 
 
     [Header("Settings")]
     public float BulletSpeed = 0.5f;
@@ -77,6 +78,7 @@ public class Gun : MonoBehaviour
 
     Transform[] Fire(){ //returns the gameObjects that were hit 
         if (GunCooldownDone){
+            handAnim.SetTrigger("Shoot");
             shotSound.Play();
             bat.incrementCharge(-1); //Drain battery
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
@@ -129,6 +131,7 @@ public class Gun : MonoBehaviour
         bool stopspintemp = parry.StopSpin(false);
       //  print(parry.CanSpinAction() + "  " + stopspintemp);
         if (parry.CanSpinAction() && stopspintemp){
+            handAnim.SetTrigger("Shoot");
             superSound.Play();
             Parry.SpinCounter++;
             //parry.UsedSpinAction = true;
