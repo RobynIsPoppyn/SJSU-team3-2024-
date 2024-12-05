@@ -54,6 +54,9 @@ public class Gun : MonoBehaviour
         parry = transform.GetComponent<Parry>();
         camFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
         hs = transform.GetComponent<healthSystem>();
+        mouseTracker = GameObject.Find("MouseTracker");
+        shotSound = GameObject.Find("GunNormalShot").GetComponent<AudioSource>();
+        superSound = GameObject.Find("GunSuperShot").GetComponent<AudioSource>();
     }
 
     float TurnTimer = 2f;

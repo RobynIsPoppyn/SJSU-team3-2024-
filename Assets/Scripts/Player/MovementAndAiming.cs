@@ -31,6 +31,8 @@ public class MovementAndAiming : MonoBehaviour
         DyingProcess = false;
         playerVelocity = new Vector3(0, 0, 0);
         parry = transform.GetComponent<Parry>();
+        mouseTracker = GameObject.Find("MouseTracker");
+        walkSound = GameObject.Find("WalkNoise").GetComponent<AudioSource>();
 
        // mouseTracker = new GameObject(); //Creates an object for the character to look at that follows the mouse
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class LevelManager : MonoBehaviour
         CountEnemies();
         if (enemies.Count == 0){
             print("Next");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else print("Kill the rest");
     }

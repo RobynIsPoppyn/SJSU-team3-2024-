@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class healthSystem : MonoBehaviour
 {
     public int maxHealth = 10;
@@ -82,5 +82,9 @@ public class healthSystem : MonoBehaviour
     public void Die(){
         print("Dead");
         maa.Dead = true;
+    }
+
+    public void DieHelper(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
