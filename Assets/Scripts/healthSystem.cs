@@ -11,6 +11,8 @@ public class healthSystem : MonoBehaviour
 
     public bool deadFlag = false;
 
+    private Parry parryScript;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,10 +22,21 @@ public class healthSystem : MonoBehaviour
         playerHealth = maxHealth;
         hb.setMaxHealth(maxHealth);
         hb.setHealth(playerHealth);
+
+        parryScript = GetComponent<Parry>();
+        if (parryScript == null)
+        {
+            Debug.LogError("Parry script not found on the player object!");
+        }
     }
 
     public void takeDamage(int harm)
     {
+        if (parryScript != null && parryScript.isInvincible)
+        {
+            Debug.Log("Player is invincible! No damage taken.");
+            return;
+        }
         Debug.Log("OUCH");
         playerHealth -= harm;
 

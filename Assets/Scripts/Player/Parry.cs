@@ -14,6 +14,11 @@ public class Parry : MonoBehaviour
     public float parrySlow = 0.035f;
     private float defaultSpeed;
     public DashChecker dc;
+
+    public float iFrameDuration = 0.5f;
+
+    public bool isInvincible;
+    public int originalLayer;
     
 
     //Internal variables -- the ones set to public can't be seen in the unity inspector 
@@ -142,6 +147,7 @@ public class Parry : MonoBehaviour
 
     public void Dodge(){
         if (CanSpinAction()){
+            StartCoroutine(EnableIframes(iFrameDuration));
             SoftCancelDodge = 0;
             cc.enabled = false;  
            // StopSpin();
@@ -204,5 +210,14 @@ public class Parry : MonoBehaviour
             return true;
         }
         return false; 
+    }
+
+    private IEnumerator EnableIframes(float duration)
+    {
+        isInvincible = true;
+        gameObject.layer = LayerMask.NameToLayer("IgnoreEnemy"); 
+        yield return new WaitForSeconds(duration);
+        gameObject.layer = originalLayer; 
+        isInvincible = false;
     }
 }

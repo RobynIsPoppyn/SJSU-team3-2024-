@@ -101,7 +101,7 @@ public class Gun : MonoBehaviour
                 if (!hitWall){ //Check if we hit a wall to prevent going through
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
-                        enemyHealth.takeDamage(1);
+                        enemyHealth.takeDamage(2);
                        // print(enemyHealth.getHealth());
                         EnemiesHit.Add(hit.transform);
                     }
@@ -166,7 +166,7 @@ public class Gun : MonoBehaviour
                 if (!hitWall){ //Check if we hit a wall to prevent going through
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
-                        enemyHealth.takeDamage(1);
+                        enemyHealth.takeDamage(3);
                         Debug.Log("enemyHITTT");
                         EnemiesHit.Add(hit.transform);
                     }
