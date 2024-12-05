@@ -14,26 +14,22 @@ public class EnemyHealth : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        hb = FindObjectOfType<enemyHealthBar>();
-
+    { 
         playerHealth = maxHealth;
-        hb.setMaxHealth(maxHealth);
-        hb.setHealth(playerHealth);
+
+        hb.updateEnemyHealthBar(playerHealth,maxHealth);
     }
 
     public void takeDamage(int harm)
     {
-        Debug.Log("OUCH");
+        Debug.Log("enemyOUCH");
         playerHealth -= harm;
 
         if (playerHealth <= 0)
         {
             deadFlag = true;
+            DestroyImmediate(gameObject);
             playerHealth = 0;
         }
-
-        hb.setHealth(playerHealth);
-
     }
 }

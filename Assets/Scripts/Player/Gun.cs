@@ -167,7 +167,7 @@ public class Gun : MonoBehaviour
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
                         enemyHealth.takeDamage(1);
-                        //print(enemyHealth.getHealth());
+                        Debug.Log("enemyHITTT");
                         EnemiesHit.Add(hit.transform);
                     }
                 }
