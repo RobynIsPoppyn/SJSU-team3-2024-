@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 10;
-    public int playerHealth;
+    public int enemyHealth;
 
     public enemyHealthBar hb;
 
@@ -15,21 +15,22 @@ public class EnemyHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        playerHealth = maxHealth;
+        hb = GetComponent<enemyHealthBar>(); 
+        enemyHealth = maxHealth;
 
-        hb.updateEnemyHealthBar(playerHealth,maxHealth);
+        hb.updateEnemyHealthBar(enemyHealth,maxHealth);
     }
 
     public void takeDamage(int harm)
     {
         Debug.Log("enemyOUCH");
-        playerHealth -= harm;
+        enemyHealth -= harm;
 
-        if (playerHealth <= 0)
+        if (enemyHealth <= 0)
         {
             deadFlag = true;
             DestroyImmediate(gameObject);
-            playerHealth = 0;
+            enemyHealth = 0;
         }
     }
 }

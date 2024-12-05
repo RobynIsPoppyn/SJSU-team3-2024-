@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class enemyHealthBar : MonoBehaviour
 {
     public Slider slider;
-    public GameObject cam;
+    public Camera cam;
 
     public void updateEnemyHealthBar(float currentVal, float maxVal)
     {
@@ -15,7 +15,8 @@ public class enemyHealthBar : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(cam.transform + cam.name);
-        transform.rotation = cam.transform.rotation;
+        Vector3 targetPosition = new Vector3(cam.transform.position.x, transform.position.y, cam.transform.position.z);
+        transform.LookAt(targetPosition);
+
     }
 }
