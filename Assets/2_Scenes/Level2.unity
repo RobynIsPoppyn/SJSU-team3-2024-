@@ -578,6 +578,10 @@ PrefabInstance:
       propertyPath: m_BounceIntensity
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3768761802863719712, guid: 3b8c0bbbfe2c9e749bdf231b9a374d57, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4579318984455342766, guid: 3b8c0bbbfe2c9e749bdf231b9a374d57, type: 3}
       propertyPath: m_Intensity
       value: 30

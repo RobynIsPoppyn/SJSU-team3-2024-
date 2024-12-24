@@ -56,11 +56,11 @@ public class healthSystem : MonoBehaviour
 
     public void takeDamage(int harm, bool Invincible){
         
-        print(Invincible);
+       
         if (Invincible || bh.Safety)
         {
             if (parryScript.Spinning) heal(parryHeal);
-            Debug.Log("Player is invincible! No damage taken.");
+     
             return;
         }
         
@@ -91,7 +91,7 @@ public class healthSystem : MonoBehaviour
 
     public void Die(){
         audioSource.Play();
-        print("Dead");
+       
         maa.Dead = true;
     }
 

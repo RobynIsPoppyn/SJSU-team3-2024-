@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
         audio.Play();
         ea.lookRadius = 100f;
         hb.updateEnemyHealthBar(enemyHealth,maxHealth);
-        Debug.Log("enemyOUCH");
+      
         enemyHealth -= harm;
 
         if (enemyHealth <= 0)

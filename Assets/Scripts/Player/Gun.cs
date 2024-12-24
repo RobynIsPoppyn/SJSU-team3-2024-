@@ -65,7 +65,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && !parry.Spinning && !maa.Dead){
-            Debug.Log("Fired");
+           
             Fire();
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && !maa.Dead){
@@ -92,7 +92,7 @@ public class Gun : MonoBehaviour
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             camFollow.GunShake();
             //Drawing the ray in the editor (doesnt show up in game)
-            Debug.DrawRay(maa.child.position, mouseTracker.transform.position - maa.child.position, Color.red, 20f);
+            Debug.DrawRay(maa.child.position, mouseTracker.transform.position - maa.child.position, Color.red, 30f);
             
             RaycastHit[] hits = Physics.RaycastAll(shotPoint.transform.position, 
                 mouseTracker.transform.position - shotPoint.transform.position, 
@@ -100,21 +100,44 @@ public class Gun : MonoBehaviour
             List<Transform> EnemiesHit = new List<Transform>(); //List of specifically enemies hit, will be coverted to an array
 
             System.Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
-            System.Array.Reverse(hits);
+            //System.Array.Reverse(hits);
             bool hitWall = false;
-            Tracer(hits[hits.Length - 1].point + Vector3.up * GunOffset, bulletTracer);
+            Vector3 firstWall = Vector3.zero;
+            Vector3 lastEnemy = Vector3.zero;
+            Vector3 floor = Vector3.zero; 
+
+            //Tracer(hits[hits.Length - 1].point + Vector3.up * GunOffset, bulletTracer);
+            
             foreach (RaycastHit hit in hits) { //look at every hit
-                print(hit.transform.name);
-                if (hit.transform.gameObject.layer == 6) hitWall = true;
+                
+                if (hit.transform.tag.Equals("Wall")) {
+                    if (firstWall.Equals(Vector3.zero)) firstWall = hit.point;
+                    hitWall = true; print("Hit a wall: " + hit.transform); 
+                    
+                }
+                if (hit.transform.tag.Equals("Floor")){
+                    floor = hit.point;
+                }
+                if (hit.transform.tag.Equals("Enemy")){
+                    lastEnemy = hit.point;
+                }
+               // if (hitWall) 
                 if (!hitWall){ //Check if we hit a wall to prevent going through
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
                         enemyHealth.takeDamage(1);
+                        
                        // print(enemyHealth.getHealth());
                         EnemiesHit.Add(hit.transform);
                     }
                 }
             }
+
+            if (!firstWall.Equals(Vector3.zero)) Tracer(firstWall + Vector3.up * GunOffset, bulletTracer);
+            else if (!floor.Equals(Vector3.zero)) Tracer(floor + Vector3.up * GunOffset, bulletTracer);
+            else if (!lastEnemy.Equals(Vector3.zero)) Tracer(lastEnemy + Vector3.up * GunOffset, bulletTracer);
+
+            
             Transform[] output = new Transform[EnemiesHit.Count]; 
             for (int i = 0;i < output.Length; i++){ // convert list to array
                 output[i] = EnemiesHit[i];
@@ -150,7 +173,7 @@ public class Gun : MonoBehaviour
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
 
             //Drawing the ray in the editor (doesnt show up in game)
-            Debug.DrawRay(maa.child.position, mouseTracker.transform.position - maa.child.position, Color.red, 20f);
+            Debug.DrawRay(shotPoint.transform.position, mouseTracker.transform.position - shotPoint.transform.position, Color.red, 30f);
             
             /*
             RaycastHit[] hits = Physics.RaycastAll(transform.position, //This one is to get the center of this raycast, and use this as the center in the boxcast
@@ -160,7 +183,27 @@ public class Gun : MonoBehaviour
             Vector3 center;
             center = maa.maxDistance transform.position 
             */
-
+            bool hitWall = false;
+            RaycastHit[] noWallArea = Physics.BoxCastAll(shotPoint.transform.position, SuperShotSize / 100, mouseTracker.transform.position - shotPoint.transform.position, 
+                maa.child.rotation, maa.maxDistance, ~(1 << 3)); //Launch a box to prevent it going through walls, but allow the big shot to go through if its not the center
+            float stoppingPoint = -1; 
+            Vector3 firstWallOrFloor = Vector3.zero;
+            Vector3 lastEnemy = Vector3.zero;
+            System.Array.Sort(noWallArea, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
+            
+            foreach (RaycastHit hit in noWallArea){
+                
+                if ((hit.transform.tag.Equals("Wall") || hit.transform.tag.Equals("Floor")) && !hitWall){
+                    
+                    hitWall = true; 
+                    stoppingPoint = hit.distance;
+                    firstWallOrFloor = hit.point;
+                    
+                }
+                else if (hit.transform.tag.Equals("Enemy")){
+                    lastEnemy = hit.point;
+                }
+            }
 
             RaycastHit[] hits = Physics.BoxCastAll(shotPoint.transform.position, SuperShotSize, 
                 mouseTracker.transform.position - shotPoint.transform.position, maa.child.rotation,
@@ -168,11 +211,13 @@ public class Gun : MonoBehaviour
             List<Transform> EnemiesHit = new List<Transform>(); //List of specifically enemies hit, will be coverted to an array
 
             System.Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
-            bool hitWall = false;
-            Tracer(mouseTracker.transform.position + mouseTracker.transform.up * SuperOffset, superTracer);
+            
+            
+            
+            Vector3 lastHit = Vector3.zero;
             foreach (RaycastHit hit in hits) { //look at every hit
-                if (hit.transform.gameObject.layer == 6) hitWall = true;
-                if (!hitWall){ //Check if we hit a wall to prevent going through
+                
+                if (hit.distance < stoppingPoint || stoppingPoint == -1){ //Check if we hit a wall to prevent going through
                     EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
                     if (enemyHealth != null){ //If we find enemy health, lower it and then add him to the list
                         enemyHealth.takeDamage(3);
@@ -180,7 +225,17 @@ public class Gun : MonoBehaviour
                         EnemiesHit.Add(hit.transform);
                     }
                 }
+                else {lastHit = hit.point; break;}
+            } 
+            Ray r = new Ray(shotPoint.transform.position, mouseTracker.transform.position - shotPoint.transform.position);
+            if(!lastHit.Equals(Vector3.zero)){
+                Tracer(r.GetPoint(stoppingPoint) + Vector3.up, superTracer);
+                
             }
+            else Tracer(mouseTracker.transform.position + Vector3.up, superTracer);
+           
+         
+    
             Transform[] output = new Transform[EnemiesHit.Count]; 
             for (int i = 0;i < output.Length; i++){ // convert list to array
                 output[i] = EnemiesHit[i];

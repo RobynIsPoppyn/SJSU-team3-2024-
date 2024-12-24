@@ -206,7 +206,7 @@ public class Parry : MonoBehaviour
     public bool StopSpin(){
         
         if (Spinning){
-            animator.Play("HatDefaultTemp");
+            animator.Play("StopSpin");
             Spinning = false;
             UsedSpinAction = false;
             isInvincible = false;

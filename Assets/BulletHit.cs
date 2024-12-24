@@ -5,6 +5,8 @@ public class BulletHit : MonoBehaviour
 {
     public int BaseBulletDamage = 1;
     public float SafetyWindow = 0.2f;
+    private AudioSource audio;
+
     private healthSystem hs;
 
     public bool Safety {get; private set;}
@@ -17,7 +19,7 @@ public class BulletHit : MonoBehaviour
             
             hs.takeDamage(BaseBulletDamage);
             StartCoroutine(CooldownSafety());
-            Debug.Log("Player hit by bullet!");
+           
             Destroy(collider.gameObject);
         }
     }
