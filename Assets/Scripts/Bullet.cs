@@ -26,4 +26,10 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
 
     }
+    public void OnCollisionEnter(Collision collisionInfo){
+        if (collisionInfo.collider.transform.tag.Equals("Wall")){
+            GameObject.Destroy(transform.gameObject);
+        }
+    }
+    
 }

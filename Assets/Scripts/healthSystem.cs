@@ -22,12 +22,14 @@ public class healthSystem : MonoBehaviour
 
     private AudioSource audioSource;
     private AudioSource parrySound;
+    private AudioSource playerDamagedSound;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GameObject.Find("DeathSound").GetComponent<AudioSource>();
         parrySound = GameObject.Find("ParrySound").GetComponent<AudioSource>();
+        playerDamagedSound = GameObject.Find("PlayerDamageSound").GetComponent<AudioSource>();
         bh = transform.GetComponent<BulletHit>();
         maa = transform.GetComponent<MovementAndAiming>();
         hb = FindObjectOfType<healthBar>();
@@ -57,14 +59,14 @@ public class healthSystem : MonoBehaviour
     public void takeDamage(int harm, bool Invincible){
         
        
-        if (Invincible || bh.Safety)
+        if (Invincible)
         {
             if (parryScript.Spinning) heal(parryHeal);
      
             return;
         }
         
-        
+        playerDamagedSound.Play();
         playerHealth -= harm;
         animPP.Play("Base Layer.DamagePP");
         if (playerHealth <= 0)

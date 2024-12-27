@@ -16,11 +16,13 @@ public class BulletHit : MonoBehaviour
     {
         if (collider.gameObject.layer == 12) 
         {
+            if (!Safety){
+                print(collider.transform);
+                hs.takeDamage(BaseBulletDamage);
+                StartCoroutine(CooldownSafety());
             
-            hs.takeDamage(BaseBulletDamage);
-            StartCoroutine(CooldownSafety());
-           
-            Destroy(collider.gameObject);
+                Destroy(collider.gameObject);
+            }
         }
     }
 

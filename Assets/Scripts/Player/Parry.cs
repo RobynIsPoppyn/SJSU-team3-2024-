@@ -28,7 +28,7 @@ public class Parry : MonoBehaviour
     private Vector3 DodgeDirection; 
     private Vector3 DodgeForwardDirection;
     private CharacterController cc; 
-    private Renderer renderer; 
+    
     private bool CanSpin = true;
 
     private Material Mat1;
@@ -52,7 +52,7 @@ public class Parry : MonoBehaviour
         rb = transform.GetComponent<Rigidbody>();
         cc = transform.GetComponent<CharacterController>();
         maa = transform.GetComponent<MovementAndAiming>();
-        renderer = maa.child.GetComponent<Renderer>();
+        
         DashSound = GameObject.Find("DashSound").GetComponent<AudioSource>();
 
     
@@ -211,7 +211,7 @@ public class Parry : MonoBehaviour
             UsedSpinAction = false;
             isInvincible = false;
 
-            renderer.material = Mat1;
+            
 
             return true;
         }
@@ -227,7 +227,7 @@ public class Parry : MonoBehaviour
 
     private IEnumerator EnableIframes(float duration)
     {
-        print("iFrames");
+        
         
         //gameObject.layer = LayerMask.NameToLayer("IgnoreEnemy"); 
         yield return new WaitForSeconds(duration);

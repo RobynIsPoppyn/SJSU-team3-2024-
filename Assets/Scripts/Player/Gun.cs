@@ -112,7 +112,7 @@ public class Gun : MonoBehaviour
                 
                 if (hit.transform.tag.Equals("Wall")) {
                     if (firstWall.Equals(Vector3.zero)) firstWall = hit.point;
-                    hitWall = true; print("Hit a wall: " + hit.transform); 
+                    hitWall = true; 
                     
                 }
                 if (hit.transform.tag.Equals("Floor")){
@@ -174,15 +174,6 @@ public class Gun : MonoBehaviour
 
             //Drawing the ray in the editor (doesnt show up in game)
             Debug.DrawRay(shotPoint.transform.position, mouseTracker.transform.position - shotPoint.transform.position, Color.red, 30f);
-            
-            /*
-            RaycastHit[] hits = Physics.RaycastAll(transform.position, //This one is to get the center of this raycast, and use this as the center in the boxcast
-                mouseTracker.transform.position - transform.position, 
-                maa.maxDistance, ~(1 << 3)); //everything hit in the path
-
-            Vector3 center;
-            center = maa.maxDistance transform.position 
-            */
             bool hitWall = false;
             RaycastHit[] noWallArea = Physics.BoxCastAll(shotPoint.transform.position, SuperShotSize / 100, mouseTracker.transform.position - shotPoint.transform.position, 
                 maa.child.rotation, maa.maxDistance, ~(1 << 3)); //Launch a box to prevent it going through walls, but allow the big shot to go through if its not the center
