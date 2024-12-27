@@ -52,21 +52,24 @@ public class healthSystem : MonoBehaviour
 
     public void takeDamage(int harm)
     {
-        takeDamage(harm, parryScript.isInvincible);
+        takeDamage(harm, false);
 
     }
 
-    public void takeDamage(int harm, bool Invincible){
+    public void takeDamage(int harm, bool Bullet){
         
        
-        if (Invincible)
+        if (parryScript.isInvincible)
         {
             if (parryScript.Spinning) heal(parryHeal);
      
             return;
         }
         
-        playerDamagedSound.Play();
+        if(Bullet){
+            print("damage sound");
+            playerDamagedSound.Play();
+        }
         playerHealth -= harm;
         animPP.Play("Base Layer.DamagePP");
         if (playerHealth <= 0)
@@ -78,7 +81,29 @@ public class healthSystem : MonoBehaviour
 
         hb.setHealth(playerHealth);
     }
+    public void takeDamage(int harm, bool Bullet, bool Invincible){
+        if (Invincible)
+        {
+            if (parryScript.Spinning) heal(parryHeal);
+     
+            return;
+        }
+        
+        if(Bullet){
+            print("damage sound");
+            playerDamagedSound.Play();
+        }
+        playerHealth -= harm;
+        animPP.Play("Base Layer.DamagePP");
+        if (playerHealth <= 0)
+        {
+            deadFlag = true;
+            playerHealth = 0;
+            Die();
+        }
 
+        hb.setHealth(playerHealth);
+    }
     public void heal(int heal)
     {
         parrySound.Play();

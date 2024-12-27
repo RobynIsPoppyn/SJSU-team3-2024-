@@ -18,7 +18,7 @@ public class BulletHit : MonoBehaviour
         {
             if (!Safety){
                 print(collider.transform);
-                hs.takeDamage(BaseBulletDamage);
+                hs.takeDamage(BaseBulletDamage, true);
                 StartCoroutine(CooldownSafety());
             
                 Destroy(collider.gameObject);

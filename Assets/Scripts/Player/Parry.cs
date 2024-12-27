@@ -158,7 +158,7 @@ public class Parry : MonoBehaviour
     public void Dodge(){
         if (CanSpinAction()){
             DashSound.Play();
-            hs.takeDamage(dodgeSelfDamage, false);
+            hs.takeDamage(dodgeSelfDamage, false, false);
             isInvincible = true;
             StartCoroutine(EnableIframes(iFrameDuration));
             SoftCancelDodge = 0;
